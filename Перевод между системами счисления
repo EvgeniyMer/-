@@ -1,0 +1,59 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    system("chcp 1251");
+    string old_num, new_num;
+    int old_not, new_not, con_arr[30], flag;
+    cout << "Введите число, старую и новую системы счисления:\n";
+    cin >> old_num >> old_not >> new_not;
+    for (int i = 0; i < old_num.length(); i++) {
+        switch (old_num[i]) {
+            case 'A':
+                con_arr[i] = 10;
+                break;
+            case 'B':
+                con_arr[i] = 11;
+                break;
+            case 'C':
+                con_arr[i] = 12;
+                break;
+            case 'D':
+                con_arr[i] = 13;
+                break;
+            case 'E':
+                con_arr[i] = 14;
+                break;
+            case 'F':
+                con_arr[i] = 15;
+                break;
+            default:
+                con_arr[i] = old_num[i]-48;
+                break;
+        }
+        cout << con_arr[i] << '\n';
+    }
+    for (int i = 0; i < old_num.length(); i++) {
+        if ((con_arr[i] < 0) or ((con_arr[i] > 9) and (old_num[i] != 'A') and (old_num[i] != 'B') and (old_num[i] != 'C') and (old_num[i] != 'D') and (old_num[i] != 'E') and (old_num[i] != 'F'))) {
+            flag = 1;
+            cout << "Число введено неверно\n";
+            break;
+        } else if (con_arr[i] >= old_not) {
+            cout << "Число не соответствует своей системе счисления\n";
+            flag = 1;
+            break;
+        } else if ((old_not < 2) or (old_not > 16) or (new_not < 2) or (new_not > 16) or (isdigit(old_not) == 0) or (isdigit(new_not) == 0)) {
+            cout << "Система счисления введена неверно\n";
+            flag = 1;
+            break;
+        }
+    }
+    if (flag != 0) {
+        if (old_not == new_not) {
+            cout << "Системы счисления равны, итоговое число будет равно исходному:\n" << old_num << '\n';
+        }
+
+    }
+    cout << con_arr;
+}
