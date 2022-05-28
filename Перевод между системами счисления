@@ -4,8 +4,8 @@ using namespace std;
 
 int main() {
     system("chcp 1251");
-    string old_num, new_num;
-    int old_not, new_not, con_arr[30], flag;
+    string old_num, new_num[35];
+    int old_not, new_not, dec_num=0, dec_ranks[35] = { 0 }, con_arr[35] = { 0 };
     cout << "Введите число, старую и новую системы счисления:\n";
     cin >> old_num >> old_not >> new_not;
     for (int i = 0; i < old_num.length(); i++) {
@@ -32,28 +32,68 @@ int main() {
                 con_arr[i] = old_num[i]-48;
                 break;
         }
-        cout << con_arr[i] << '\n';
     }
     for (int i = 0; i < old_num.length(); i++) {
         if ((con_arr[i] < 0) or ((con_arr[i] > 9) and (old_num[i] != 'A') and (old_num[i] != 'B') and (old_num[i] != 'C') and (old_num[i] != 'D') and (old_num[i] != 'E') and (old_num[i] != 'F'))) {
-            flag = 1;
-            cout << "Число введено неверно\n";
-            break;
+            cout << "Число введено неверно";
+            return 0;
+        } else if ((old_not < 2) or (old_not > 16) or (new_not < 2) or (new_not > 16)) {
+            cout << "Система счисления введена неверно";
+            return 0;
         } else if (con_arr[i] >= old_not) {
-            cout << "Число не соответствует своей системе счисления\n";
-            flag = 1;
-            break;
-        } else if ((old_not < 2) or (old_not > 16) or (new_not < 2) or (new_not > 16) or (isdigit(old_not) == 0) or (isdigit(new_not) == 0)) {
-            cout << "Система счисления введена неверно\n";
-            flag = 1;
-            break;
+            cout << "Число не соответствует своей системе счисления";
+            return 0;
         }
     }
-    if (flag != 0) {
-        if (old_not == new_not) {
-            cout << "Системы счисления равны, итоговое число будет равно исходному:\n" << old_num << '\n';
+    if (old_not == new_not) {
+        cout << "Системы счисления равны, итоговое число будет равно исходному:\n" << old_num;
+        return 0;
+    } else {
+        for (int i = 0; i < old_num.length(); i++) {
+            dec_ranks[i] = con_arr[i] * pow(old_not, (old_num.length() - 1 - i));
+            dec_num = dec_num + dec_ranks[i];
         }
+        if (new_not == 10) {
+            cout << dec_num;
+            return 0;
+        }
+    }
+    int i = 0, k=0, m=30;
+    while (dec_num>0) {
+        m = 30 - i;
+        con_arr[m] = dec_num % new_not;
+        dec_num = (dec_num - con_arr[m]) / new_not;
+        i++;
 
     }
-    cout << con_arr;
+    while (m<31) {
+        switch (con_arr[m]) {
+        case 10:
+            new_num[k] = 'A';
+            break;
+        case 11:
+            new_num[k] = 'B';
+            break;
+        case 12:
+            new_num[k] = 'C';
+            break;
+        case 13:
+            new_num[k] = 'D';
+            break;
+        case 14:
+            new_num[k] = 'E';
+            break;
+        case 15:
+            new_num[k] = 'F';
+            break;
+        default:
+            new_num[k] = con_arr[m] + 48;
+            break;
+        }
+        m++;
+        k++;
+    }
+    for (int i=0; i<k; i++) {
+        cout << new_num[i];
+    }
 }
